@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: stealth-web-agent
+    env: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    numInstances: 1
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: PORT
+        value: 8000
