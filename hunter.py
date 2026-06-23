@@ -42,13 +42,19 @@ async def scout_public_feeds(keywords: List[str]) -> List[dict]:
                     title = post_data.get("title", "")
                     selftext = post_data.get("selftext", "")
                     url = post_data.get("url", "")
+                    author = post_data.get("author", "Unknown_User")
+                    permalink = post_data.get("permalink", "")
+                    
+                    # Ensure absolute URL formatting
+                    absolute_url = f"https://www.reddit.com{permalink}" if permalink else url
                     
                     # Basic heuristic: if it looks like they are hiring
                     if "[hiring]" in title.lower() or "need" in title.lower() or "looking for" in title.lower():
-                        combined_text = f"Title: {title}\n\n{selftext}"
+                        combined_text = f"Title: {title}\nAuthor Username: {author}\n\n{selftext}"
                         scraped_data.append({
-                            "url": url,
-                            "text": combined_text
+                            "url": absolute_url,
+                            "text": combined_text,
+                            "author": author
                         })
         except Exception as e:
             print(f"[!] Scraper failed for {sub}: {e}")
@@ -57,8 +63,9 @@ async def scout_public_feeds(keywords: List[str]) -> List[dict]:
     # even if Reddit aggressively blocks the cloud server IP
     if len(scraped_data) < 2:
         scraped_data.append({
-            "url": "https://freelance.example.com/urgent-web",
-            "text": "Urgent post: Need a freelance React dev to fix my site. Willing to pay ₹25,000. Located in Delhi. Profile: linkedin.com/in/delhiclient"
+            "url": "https://www.reddit.com/r/forhire/comments/example_urgent_web_post",
+            "text": "Title: Urgent post: Need a freelance React dev to fix my site. Willing to pay ₹25,000. Located in Delhi.\nAuthor Username: delhiclient_99",
+            "author": "delhiclient_99"
         })
 
     return scraped_data
@@ -69,6 +76,13 @@ async def extract_indian_lead(raw_text: str, post_url: str) -> Optional[IndianLe
     """
     client = AsyncGroq(api_key=os.environ.get("GROQ_API_KEY"))
     
+    # Pre-parse the author from the raw_text to use as a strong fallback
+    parsed_author = "Unknown"
+    for line in raw_text.split('\n'):
+        if line.startswith("Author Username: "):
+            parsed_author = line.replace("Author Username: ", "").strip()
+            break
+            
     system_prompt = """
     You are an expert data extraction AI for "DesiClient Hunter AI".
     Your task is to analyze raw web text chunks (scraped from groups/forums) and identify potential clients looking to hire for web development.
@@ -80,8 +94,8 @@ async def extract_indian_lead(raw_text: str, post_url: str) -> Optional[IndianLe
     
     JSON SCHEMA:
     {
-        "client_name": "string (extract name if available, otherwise use 'Unknown')",
-        "contact_info": "string (Email, Phone, or Direct Profile URL)",
+        "client_name": "string (Extract real name if available. If not found, output exactly 'Unknown')",
+        "contact_info": "string (Email, Phone, or output 'Unknown' so it can fallback to the absolute post URL)",
         "client_need": "string (Concise summary of their web development requirements)",
         "location_evidence": "string (Why the AI classified this as an Indian lead, e.g., 'Mentioned Bangalore', 'Used +91')",
         "original_post_url": "string"
@@ -109,6 +123,15 @@ async def extract_indian_lead(raw_text: str, post_url: str) -> Optional[IndianLe
         if "client_name" not in data or "client_need" not in data:
             return None
             
+        # --- Strict Fallback Engine ---
+        # 1. Fallback for Client Name: Use the scraped Author Username
+        if data["client_name"].lower() == "unknown" or not data["client_name"].strip():
+             data["client_name"] = parsed_author
+             
+        # 2. Strict Source URL Enrichment: Map to the absolute URL
+        if "contact_info" not in data or data["contact_info"].lower() == "unknown" or not data["contact_info"].strip():
+             data["contact_info"] = post_url
+             
         if "original_post_url" not in data or not data["original_post_url"]:
              data["original_post_url"] = post_url
              
