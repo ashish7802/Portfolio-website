@@ -1,7 +1,6 @@
 fastapi
 uvicorn
-pydantic
-playwright
 groq
 pandas
 openpyxl
+python-dotenv
