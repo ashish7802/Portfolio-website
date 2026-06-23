@@ -107,8 +107,8 @@ async def scout_public_feeds(keywords: List[str]) -> List[dict]:
         "https://remoteok.com/api"
     ]
     
-    # 3. Reddit Platforms
-    subreddits = ["forhire", "freelance_forhire"]
+    # 3. Reddit Platforms (Added developersIndia for guaranteed local context)
+    subreddits = ["forhire", "freelance_forhire", "developersIndia"]
 
     # Gather feeds concurrently
     tasks = []
