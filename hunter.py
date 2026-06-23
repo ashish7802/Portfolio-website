@@ -27,12 +27,16 @@ async def scout_public_feeds(keywords: List[str]) -> List[dict]:
     if "web development hire india" in keywords:
         mock_scraped_data.append({
             "url": "https://forum.example.com/india-dev-jobs/post1",
-            "text": "Urgent! We are a startup in Bangalore looking for a React and Node.js developer. Please send your portfolio to tech@startup.in. Budget is ₹80,000/month."
+            "text": "Urgent! We are a startup in Bangalore looking for a React and Node.js developer for a 3-month contract. Please send your portfolio to tech@startup.in. Budget: 80k/month."
+        })
+        mock_scraped_data.append({
+            "url": "https://forum.example.com/india-dev-jobs/post2",
+            "text": "Need a freelance web developer urgently. Tech stack: Python/Django. Location: Remote (India only). Reach out to Amit at amit.kumar@example.in."
         })
     if "looking for website designer mumbai" in keywords:
         mock_scraped_data.append({
             "url": "https://social.example.com/mumbai-tech/designer-needed",
-            "text": "Looking for a website designer in Mumbai to revamp our corporate site. Must have experience with Figma and Tailwind. Contact +91-9876543210."
+            "text": "Looking for a website designer in Mumbai to revamp our corporate site. Must have experience with Figma and Tailwind. Call me directly on +91-9876543210."
         })
         mock_scraped_data.append({
             "url": "https://social.example.com/mumbai-tech/spam",
@@ -41,16 +45,16 @@ async def scout_public_feeds(keywords: List[str]) -> List[dict]:
     if "need e-commerce developer inr" in keywords:
         mock_scraped_data.append({
             "url": "https://boards.example.com/ecommerce/need-dev",
-            "text": "Hey all, need an e-commerce developer to build a Shopify store from scratch. Budget is 1,00,000 INR. Drop your profile links below."
+            "text": "Hey all, need an e-commerce developer to build a Shopify store from scratch. Budget is 1,50,000 INR. Drop your GitHub and LinkedIn links below."
         })
     if "freelance web dev urgent post" in keywords:
         mock_scraped_data.append({
             "url": "https://freelance.example.com/urgent-web",
-            "text": "Urgent post: Need a freelance web dev to fix my WordPress site. Willing to pay ₹20,000. Located in Delhi. Profile: linkedin.com/in/delhiclient"
+            "text": "Urgent post: Need a freelance WordPress dev to fix my site. Willing to pay ₹25,000. Located in Delhi. Profile: linkedin.com/in/delhiclient"
         })
         mock_scraped_data.append({
-            "url": "https://freelance.example.com/urgent-web-us",
-            "text": "Need a Python dev in New York. Paying in USD." # Should be filtered out by LLM
+            "url": "https://freelance.example.com/urgent-web-pune",
+            "text": "Looking for a React dev in Pune for a quick landing page setup. Willing to pay good money. Send me a DM at facebook.com/pune-agency-owner"
         })
         
     return mock_scraped_data
@@ -67,15 +71,15 @@ async def extract_indian_lead(raw_text: str, post_url: str) -> Optional[IndianLe
     
     CRITICAL INSTRUCTIONS:
     1. FILTER: Instantly filter out anything that is NOT a web development hiring requirement. If the text does not contain a web development lead, return an empty JSON object {}.
-    2. SCREEN FOR INDIAN CONTEXT: Aggressively screen for Indian context. Validate through language style, names, local places, currency (INR, ₹), or phone codes (+91).
+    2. SCREEN FOR INDIAN CONTEXT: Aggressively screen for Indian context. Validate through language style, names (e.g., Amit, Kumar), local tech hubs (e.g., Bangalore, Mumbai, Delhi, Pune, Noida), country domains (.in), currency (INR, ₹, Rs, k/month, lakhs), or phone codes (+91). Be robust—if the location or name strongly suggests India, classify it as valid even if currency isn't explicitly mentioned.
     3. FORMAT: If a valid Indian web development lead is found, format the output directly into a native JSON object matching the exact schema below. Do not include any other text.
     
     JSON SCHEMA:
     {
-        "client_name": "string",
+        "client_name": "string (extract name if available, otherwise use 'Unknown')",
         "contact_info": "string (Email, Phone, or Direct Profile URL)",
         "client_need": "string (Concise summary of their web development requirements)",
-        "location_evidence": "string (Why the AI classified this as an Indian lead)",
+        "location_evidence": "string (Why the AI classified this as an Indian lead, e.g., 'Mentioned Bangalore', 'Used +91')",
         "original_post_url": "string"
     }
     """
@@ -94,10 +98,14 @@ async def extract_indian_lead(raw_text: str, post_url: str) -> Optional[IndianLe
         )
         
         result_content = response.choices[0].message.content
-        if not result_content or result_content.strip() == "{}":
+        if not result_content or result_content.strip() == "{}" or result_content.strip() == "":
             return None
             
         data = json.loads(result_content)
+        # Ensure it has all required fields before returning, otherwise skip
+        if "client_name" not in data or "client_need" not in data:
+            return None
+            
         # Ensure original_post_url is present
         if "original_post_url" not in data or not data["original_post_url"]:
              data["original_post_url"] = post_url
