@@ -1,5 +1,9 @@
 <div align="center">
   <br />
+  <a href="https://github.com/ashish7802/Portfolio-website" target="_blank">
+    <img src="public/preview.png" alt="Portfolio Preview" width="800" style="border-radius: 8px;">
+  </a>
+  <br />
 
   <h1>Ashish Yadav - Modern Developer Portfolio</h1>
   
