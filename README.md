@@ -1,12 +1,16 @@
-# DesiClient Hunter AI 🚀
-Autonomous Indian Web Dev Lead Intelligence Platform. A single-process high-performance FastAPI Monolith built to scout public channels, extract active contract developer leads, and process production-grade Excel files.
+# React + Vite
 
-## 🛠️ Unified Architecture
-- **Core Engine:** FastAPI Monolith serving the sleek premium dark UI (Tailwind CSS embedded) directly via the root `/` endpoint.
-- **AI Processing Layer:** Groq Llama 3.3 Versatile pipeline with strict Indian localization validation.
-- **Infrastructure:** Fully Dockerized (`Dockerfile`) with an Infrastructure-as-Code blueprint (`render.yaml`).
+This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
-## 🚀 Live Cloud Deployment
-1. Connect this repository directly to Render.com via **New > Blueprint**.
-2. Add the secure environment variable `GROQ_API_KEY` inside the Render settings dashboard.
-3. Apply changes. Render automatically deploys the container on a dedicated cloud server.
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+
+## React Compiler
+
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+
+## Expanding the Oxlint configuration
+
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
