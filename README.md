@@ -1,9 +1,5 @@
 <div align="center">
   <br />
-    <a href="https://ashyadavweb.netlify.app/" target="_blank">
-      <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=200&auto=format&fit=crop" alt="Project Banner" style={{ borderRadius: '50%' }}>
-    </a>
-  <br />
 
   <h1>Ashish Yadav - Modern Developer Portfolio</h1>
   
