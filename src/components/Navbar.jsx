@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+
 
 const Navbar = () => {
   return (
@@ -22,7 +22,7 @@ const Navbar = () => {
         <li><a href="#about" style={{ transition: 'color 0.3s' }} onMouseOver={e => e.target.style.color = 'var(--accent-primary)'} onMouseOut={e => e.target.style.color = 'var(--text-primary)'}>About</a></li>
         <li><a href="#experience" style={{ transition: 'color 0.3s' }} onMouseOver={e => e.target.style.color = 'var(--accent-primary)'} onMouseOut={e => e.target.style.color = 'var(--text-primary)'}>Experience</a></li>
         <li><a href="#projects" style={{ transition: 'color 0.3s' }} onMouseOver={e => e.target.style.color = 'var(--accent-primary)'} onMouseOut={e => e.target.style.color = 'var(--text-primary)'}>Projects</a></li>
-        <li><a href="#blog" style={{ transition: 'color 0.3s' }} onMouseOver={e => e.target.style.color = 'var(--accent-primary)'} onMouseOut={e => e.target.style.color = 'var(--text-primary)'}>Blog</a></li>
+        <li><a href="#skills" style={{ transition: 'color 0.3s' }} onMouseOver={e => e.target.style.color = 'var(--accent-primary)'} onMouseOut={e => e.target.style.color = 'var(--text-primary)'}>Awesome API Skills</a></li>
         <li><a href="#contact" style={{ transition: 'color 0.3s' }} onMouseOver={e => e.target.style.color = 'var(--accent-primary)'} onMouseOut={e => e.target.style.color = 'var(--text-primary)'}>Contact</a></li>
       </ul>
     </nav>

@@ -43,7 +43,7 @@ const Hero = () => {
         <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', fontSize: '1.5rem' }}>
           <a href="https://www.linkedin.com/in/ashish-yadav-ab206124a" target="_blank" rel="noreferrer" style={{ color: 'var(--text-secondary)', transition: 'color 0.3s' }} onMouseOver={e => e.target.style.color='var(--text-primary)'} onMouseOut={e => e.target.style.color='var(--text-secondary)'}><FiLinkedin /></a>
           <a href="mailto:ashishyadav4818@gmail.com" style={{ color: 'var(--text-secondary)', transition: 'color 0.3s' }} onMouseOver={e => e.target.style.color='var(--text-primary)'} onMouseOut={e => e.target.style.color='var(--text-secondary)'}><FiMail /></a>
-          <a href="https://github.com" target="_blank" rel="noreferrer" style={{ color: 'var(--text-secondary)', transition: 'color 0.3s' }} onMouseOver={e => e.target.style.color='var(--text-primary)'} onMouseOut={e => e.target.style.color='var(--text-secondary)'}><FiGithub /></a>
+          <a href="https://github.com/ashish7802" target="_blank" rel="noreferrer" style={{ color: 'var(--text-secondary)', transition: 'color 0.3s' }} onMouseOver={e => e.target.style.color='var(--text-primary)'} onMouseOut={e => e.target.style.color='var(--text-secondary)'}><FiGithub /></a>
         </div>
       </motion.div>
     </section>
