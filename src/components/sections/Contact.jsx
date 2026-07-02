@@ -1,7 +1,20 @@
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiMail, FiPhone, FiMapPin, FiSend } from 'react-icons/fi';
+import { FiMail, FiPhone, FiMapPin, FiSend, FiCheckCircle } from 'react-icons/fi';
 
 const Contact = () => {
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (formData.name && formData.email && formData.message) {
+      setSubmitted(true);
+      setFormData({ name: '', email: '', message: '' });
+      setTimeout(() => setSubmitted(false), 5000);
+    }
+  };
+
   return (
     <section id="contact" className="section-container" style={{ marginBottom: '5rem' }}>
       <motion.div
@@ -57,23 +70,63 @@ const Contact = () => {
           </div>
 
           <div className="glass-card">
-            <form style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }} onSubmit={(e) => e.preventDefault()}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                <label htmlFor="name" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Name</label>
-                <input type="text" id="name" placeholder="John Doe" style={{ padding: '1rem', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--glass-border)', borderRadius: '8px', color: 'white', outline: 'none' }} onFocus={e => e.target.style.borderColor='var(--accent-primary)'} onBlur={e => e.target.style.borderColor='var(--glass-border)'} />
+            {submitted ? (
+              <div style={{ textAlign: 'center', padding: '2rem 1rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
+                <FiCheckCircle size={48} color="#10B981" />
+                <h3 style={{ fontSize: '1.5rem', fontWeight: 700 }}>Message Sent!</h3>
+                <p style={{ color: 'var(--text-secondary)' }}>
+                  Thank you for reaching out. Ashish will get back to you shortly!
+                </p>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                <label htmlFor="email" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Email</label>
-                <input type="email" id="email" placeholder="john@example.com" style={{ padding: '1rem', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--glass-border)', borderRadius: '8px', color: 'white', outline: 'none' }} onFocus={e => e.target.style.borderColor='var(--accent-primary)'} onBlur={e => e.target.style.borderColor='var(--glass-border)'} />
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                <label htmlFor="message" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Message</label>
-                <textarea id="message" rows="4" placeholder="How can I help you?" style={{ padding: '1rem', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--glass-border)', borderRadius: '8px', color: 'white', outline: 'none', resize: 'vertical' }} onFocus={e => e.target.style.borderColor='var(--accent-primary)'} onBlur={e => e.target.style.borderColor='var(--glass-border)'}></textarea>
-              </div>
-              <button type="submit" className="btn-primary" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', width: '100%', marginTop: '0.5rem' }}>
-                Send Message <FiSend />
-              </button>
-            </form>
+            ) : (
+              <form style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }} onSubmit={handleSubmit}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <label htmlFor="name" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Name</label>
+                  <input 
+                    type="text" 
+                    id="name" 
+                    required
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    placeholder="John Doe" 
+                    style={{ padding: '1rem', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--glass-border)', borderRadius: '8px', color: 'white', outline: 'none' }} 
+                    onFocus={e => e.target.style.borderColor='var(--accent-primary)'} 
+                    onBlur={e => e.target.style.borderColor='var(--glass-border)'} 
+                  />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <label htmlFor="email" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Email</label>
+                  <input 
+                    type="email" 
+                    id="email" 
+                    required
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    placeholder="john@example.com" 
+                    style={{ padding: '1rem', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--glass-border)', borderRadius: '8px', color: 'white', outline: 'none' }} 
+                    onFocus={e => e.target.style.borderColor='var(--accent-primary)'} 
+                    onBlur={e => e.target.style.borderColor='var(--glass-border)'} 
+                  />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <label htmlFor="message" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Message</label>
+                  <textarea 
+                    id="message" 
+                    rows="4" 
+                    required
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    placeholder="How can I help you?" 
+                    style={{ padding: '1rem', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--glass-border)', borderRadius: '8px', color: 'white', outline: 'none', resize: 'vertical' }} 
+                    onFocus={e => e.target.style.borderColor='var(--accent-primary)'} 
+                    onBlur={e => e.target.style.borderColor='var(--glass-border)'}
+                  ></textarea>
+                </div>
+                <button type="submit" className="btn-primary" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', width: '100%', marginTop: '0.5rem' }}>
+                  Send Message <FiSend />
+                </button>
+              </form>
+            )}
           </div>
 
         </div>

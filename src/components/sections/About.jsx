@@ -1,13 +1,13 @@
 import { motion } from 'framer-motion';
-import { FiCode, FiLayout, FiSmartphone } from 'react-icons/fi';
+import { FiCode, FiLayout, FiSmartphone, FiCpu, FiTerminal } from 'react-icons/fi';
 
 const About = () => {
   const skills = [
-    { name: 'Python (Programming Language)', icon: <FiCode /> },
-    { name: 'Cascading Style Sheets (CSS)', icon: <FiLayout /> },
-    { name: 'Responsive Web Design', icon: <FiSmartphone /> },
-    { name: 'FastAPI', icon: <FiCode /> },
-    { name: 'React', icon: <FiLayout /> }
+    { name: 'Python & FastAPI', icon: <FiCode /> },
+    { name: 'React & Next.js', icon: <FiLayout /> },
+    { name: 'AI Agents & Web Automation (Playwright, Groq, Gemini)', icon: <FiCpu /> },
+    { name: 'CLI Tools & Developer Infrastructure', icon: <FiTerminal /> },
+    { name: 'Responsive Design & CSS', icon: <FiSmartphone /> }
   ];
 
   return (
@@ -24,7 +24,7 @@ const About = () => {
           <div className="glass-card">
             <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: 'var(--accent-primary)' }}>Summary</h3>
             <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '2rem' }}>
-              Full-Stack Web Developer Building QuantumX—AI with quantum-level parallel search for accurate, reliable outputs. I specialize in building high-performance, scalable web apps for modern businesses with a priority on web development and lead generation integration.
+              Full-Stack Web Developer & AI Builder specializing in autonomous AI agents, developer tooling, and scalable web applications. Creator of <strong>Awesome API Skills</strong> (100+ machine-readable AI context files), <strong>Stealth Web Agent</strong>, and <strong>DesiClient Hunter</strong>. Passionate about building tools that elevate developer workflows and automate complex business processes.
             </p>
 
             <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: 'var(--accent-secondary)' }}>Education</h3>
